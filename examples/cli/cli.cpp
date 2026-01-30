@@ -715,6 +715,19 @@ static void output_json(
         start_obj("result");
             value_s("language", whisper_lang_str(whisper_full_lang_id(ctx)), true);
         end_obj(false);
+        const int64_t n_vad_segments = whisper_full_n_vad_segments(ctx);
+        if (n_vad_segments > 0) {
+            start_arr("vad_segments");
+            for (int i = 0; i < n_vad_segments; ++i) {
+                const int64_t t0 = whisper_full_get_vad_segment_t0(ctx, i);
+                const int64_t t1 = whisper_full_get_vad_segment_t1(ctx, i);
+                start_obj(nullptr);
+                    value_i("from", t0 * 10, false);
+                    value_i("to", t1 * 10, true);
+                end_obj(i == (n_vad_segments - 1));
+            }
+            end_arr(false);
+        }
         start_arr("transcription");
 
             const int n_segments = whisper_full_n_segments(ctx);

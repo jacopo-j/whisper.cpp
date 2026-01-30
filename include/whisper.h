@@ -643,6 +643,11 @@ extern "C" {
     WHISPER_API int64_t whisper_full_get_segment_t1           (struct whisper_context * ctx, int i_segment);
     WHISPER_API int64_t whisper_full_get_segment_t1_from_state(struct whisper_state * state, int i_segment);
 
+    // Get VAD segments in centiseconds (original audio timeline)
+    WHISPER_API int64_t whisper_full_n_vad_segments(struct whisper_context * ctx);
+    WHISPER_API int64_t whisper_full_get_vad_segment_t0(struct whisper_context * ctx, int i_segment);
+    WHISPER_API int64_t whisper_full_get_vad_segment_t1(struct whisper_context * ctx, int i_segment);
+
     // Get whether the next segment is predicted as a speaker turn
     WHISPER_API bool whisper_full_get_segment_speaker_turn_next(struct whisper_context * ctx, int i_segment);
     WHISPER_API bool whisper_full_get_segment_speaker_turn_next_from_state(struct whisper_state * state, int i_segment);

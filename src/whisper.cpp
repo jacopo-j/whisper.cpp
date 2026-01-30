@@ -8167,6 +8167,33 @@ int64_t whisper_full_get_segment_t1(struct whisper_context * ctx, int i_segment)
     return whisper_full_get_segment_t1_from_state(ctx->state, i_segment);
 }
 
+int64_t whisper_full_n_vad_segments(struct whisper_context * ctx) {
+    if (ctx == nullptr || ctx->state == nullptr || !ctx->state->has_vad_segments) {
+        return 0;
+    }
+    return (int64_t) ctx->state->vad_segments.size();
+}
+
+int64_t whisper_full_get_vad_segment_t0(struct whisper_context * ctx, int i_segment) {
+    if (ctx == nullptr || ctx->state == nullptr || !ctx->state->has_vad_segments) {
+        return -1;
+    }
+    if (i_segment < 0 || i_segment >= (int) ctx->state->vad_segments.size()) {
+        return -1;
+    }
+    return ctx->state->vad_segments[i_segment].orig_start;
+}
+
+int64_t whisper_full_get_vad_segment_t1(struct whisper_context * ctx, int i_segment) {
+    if (ctx == nullptr || ctx->state == nullptr || !ctx->state->has_vad_segments) {
+        return -1;
+    }
+    if (i_segment < 0 || i_segment >= (int) ctx->state->vad_segments.size()) {
+        return -1;
+    }
+    return ctx->state->vad_segments[i_segment].orig_end;
+}
+
 bool whisper_full_get_segment_speaker_turn_next_from_state(struct whisper_state * state, int i_segment) {
     return state->result_all[i_segment].speaker_turn_next;
 }
